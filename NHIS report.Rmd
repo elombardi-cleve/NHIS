@@ -1,0 +1,87 @@
+---
+title: "NHIS LGB Report"
+output: html_document
+---
+
+
+```{r}
+load (file="E:/National Health Interview Survey/Data/2013/NHISadult")
+
+NHISadult$sexor[NHISadult$asisim == 1] <- 1
+NHISadult$sexor[NHISadult$asisif == 1] <- 1
+NHISadult$sexor[NHISadult$asisim == 3] <- 2
+NHISadult$sexor[NHISadult$asisif == 3] <- 2
+NHISadult$sexor[NHISadult$asisim == 2] <- 4
+NHISadult$sexor[NHISadult$asisif == 2] <- 4
+NHISadult$sexor[NHISadult$asisim == 4 | NHISadult$asisim == 5] <- 3
+NHISadult$sexor[NHISadult$asisif == 4 | NHISadult$asisif == 5] <- 3
+NHISadult$sexor[NHISadult$asisim == 7 | NHISadult$asisim == 8] <- NA
+NHISadult$sexor[NHISadult$asisif == 7 | NHISadult$asisif == 8] <- NA
+
+
+NHISadult$dibev [NHISadult$dibev >= 7] <- NA
+NHISadult$canev [NHISadult$canev >= 7] <- NA
+NHISadult$cnkind5 [NHISadult$cnkind5 >= 7] <- NA
+NHISadult$cnkind6 [NHISadult$cnkind6 >= 7] <- NA
+NHISadult$cnkind7  [NHISadult$cnkind7 >= 7] <- NA
+NHISadult$cnkind14   [NHISadult$cnkind14 >= 7] <- NA
+NHISadult$cnkind29 [NHISadult$cnkind29 >= 7] <- NA
+NHISadult$cnkind21 [NHISadult$cnkind21 >= 7] <- NA
+
+NHISadult$asihivt [NHISadult$asihivt >= 7] <- NA 
+
+NHISadult$smkev [NHISadult$smkev >= 7] <- NA 
+NHISadult$smknow [NHISadult$smknow >= 7] <- NA 
+
+NHISadult$adrnanp [NHISadult$adrnanp >= 7] <- NA 
+```
+
+
+```{r}
+diabetes <- xtabs(~ sexor+dibev, data=NHISadult)
+prop.table(diabetes, 1)
+
+cancer <- xtabs(~ sexor+canev, data=NHISadult)
+prop.table(cancer, 1)
+
+breast <- xtabs(~ sexor+cnkind5, data=NHISadult)
+prop.table(breast, 1)
+
+breast2 <- xtabs(~ sexor+sex+cnkind5, data=NHISadult)
+ftable(prop.table(breast2, c(1,2)))
+
+cervix <- xtabs(~ sexor+sex+cnkind6, data=NHISadult)
+ftable(prop.table(cervix, c(1,2)))
+
+colon <- xtabs(~ sexor+cnkind7, data=NHISadult)
+prop.table(colon, 1)
+
+lung <- xtabs(~ sexor+cnkind14, data=NHISadult)
+prop.table(lung, 1)
+
+uterus <- xtabs(~ sexor+cnkind29, data=NHISadult)
+prop.table(uterus, 1)
+
+anus <- xtabs(~ sexor+cnkind21, data=NHISadult)
+prop.table(anus, 1)
+
+anus2 <- xtabs(~ sexor+sex+cnkind21, data=NHISadult)
+ftable(prop.table(anus2, c(1,2)))
+
+HIVtest <- xtabs(~ sexor+sex+asihivt, data=NHISadult)
+ftable(prop.table(HIVtest, c(1,2)))
+
+smoke100 <- xtabs(~ sexor+sex+smkev, data=NHISadult)
+ftable(prop.table(smoke100, c(1,2)))
+
+smokenow <- xtabs(~ sexor+sex+smknow, data=NHISadult)
+ftable(prop.table(smokenow, c(1,2)))
+
+acc <- xtabs(~ sexor+adrnanp, data=NHISadult)
+prop.table(acc, 1)
+
+acc2 <- xtabs(~ sexor+sex+adrnanp, data=NHISadult)
+ftable(prop.table(acc2, c(1,2)))
+
+```
+
